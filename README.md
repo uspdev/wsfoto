@@ -13,7 +13,8 @@ Para testá-los, adicione em seu arquivo PHP:
     require_once __DIR__ . '/vendor/autoload.php';
 
     use Uspdev\Wsfoto;
-    $wsfoto = new Wsfoto('usuario','senha'); 
+    putenv('WSFOTO_USER=SEU_USERFFLCH');
+    putenv('WSFOTO_PASS=SEU_SCRET');
 
-    $id = $wsfoto->obter('SEU NUMERO USP');
-    echo $id;
+    $foto = Wsfoto::obter('5385361');
+
