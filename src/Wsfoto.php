@@ -9,7 +9,7 @@ class Wsfoto
     {
         require_once __DIR__ . '/../vendor/econea/nusoap/src/nusoap.php';
 
-        $wsdl =  getcwd() . '/vendor/uspdev/wsfoto/foto.wsdl';
+        $wsdl = 'http://uspdigital.usp.br/wsfoto/wsdl/foto.wsdl';
 
         $this->clienteSoap = new \nusoap_client($wsdl, 'wsdl');
         $erro = $this->clienteSoap->getError();
