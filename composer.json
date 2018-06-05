@@ -1,0 +1,23 @@
+{
+    "name": "uspdev/wsfoto",
+    "minimum-stability": "dev",
+    "homepage": "https://github.com/uspdev/wsfoto",
+    "description": "Classe PHP que abstrai requisições SOAP do wsfoto USP",
+    "type": "library",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Thiago Gomes Verissimo",
+            "email": "thiago.verissimo@usp.br",
+            "homepage": "https://github.com/thiagogomesverissimo"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Uspdev\\" : "src"
+        }
+    },
+    "require": {
+        "econea/nusoap": "dev-master"
+    }
+}
