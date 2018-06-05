@@ -29,7 +29,7 @@ class Wsfoto
             return $request["detail"]["WSException"];
         }
         else {
-            var_dump($request); die();
+            return $request['fotoCartao'];
         }
     }
 }
