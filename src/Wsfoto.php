@@ -4,36 +4,35 @@ namespace Uspdev;
 
 class Wsfoto
 {
-    private $clienteSoap;
-    public function __construct($user=False, $pass=False)
+    private static $instance;
+    private function __construct(){}
+    private function __clone(){}
+
+    public static function getInstance(){
     {
-        if ($user == False & $pass == False) {
-            $user = getenv('WSFOTO_USER');
-            $pass = getenv('WSFOTO_PASS');
-        }
         require_once __DIR__ . '/../vendor/econea/nusoap/src/nusoap.php';
-
-        $wsdl = 'http://uspdigital.usp.br/wsfoto/wsdl/foto.wsdl';
-
-        $this->clienteSoap = new \nusoap_client($wsdl, 'wsdl');
-        $erro = $this->clienteSoap->getError();
-        if ($erro) {
-            print_r($erro); 
-            die();
+        $user = getenv('WSFOTO_USER');
+        $pass = getenv('WSFOTO_PASS');
+        
+        if(!self::$instance) {
+            try {
+                self::$instance = new \nusoap_client('http://uspdigital.usp.br/wsfoto/wsdl/foto.wsdl', 'wsdl');
+            } catch(Exception $e) {
+                var_dump($e);
+            }
+               
+            self::$instance->setHeaders(array('username' => $user,'password' => $pass));
         }
-        $this->clienteSoap->setHeaders(array('username' => $user,'password' => $pass));
+        return self::$instance;
     }
 
-    public function obter($codpes)
+    public static function obter($codpes)
     {
-        $request = $this->clienteSoap->call('obterFotoCartao', 
-            array('codigoPessoa' => $codpes));
-
-        if ($this->clienteSoap->fault) {
-            return $request["detail"]["WSException"];
+        try {
+            $request = self::getInstance()->clienteSoap->call('obterFotoCartao',['codigoPessoa' => $codpes]);
+        } catch(Exception $e) {
+            var_dump($e);
         }
-        else {
-            return $request['fotoCartao'];
-        }
+        return $request['fotoCartao'];
     }
 }
