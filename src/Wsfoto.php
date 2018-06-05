@@ -5,8 +5,12 @@ namespace Uspdev;
 class Wsfoto
 {
     private $clienteSoap;
-    public function __construct($user, $pass)
+    public function __construct($user=False, $pass=False)
     {
+        if ($user == False & $pass == False) {
+            $user = getenv('WSFOTO_USER');
+            $pass = getenv('WSFOTO_PASS');
+        }
         require_once __DIR__ . '/../vendor/econea/nusoap/src/nusoap.php';
 
         $wsdl = 'http://uspdigital.usp.br/wsfoto/wsdl/foto.wsdl';
