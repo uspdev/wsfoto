@@ -25,13 +25,14 @@ class Wsfoto
     
     public static function obter(string $codpes)
     {
-        $request['fotoCartao'] = false;
         try {
             $request = self::getInstance()->call('obterFotoCartao',['codigoPessoa' => $codpes]);
-
         } catch(Exception $e) {
             var_dump($e);
         }
-        return $request['fotoCartao'];
+        if (isset($request['fotoCartao'])) {
+            return $request['fotoCartao'];
+        }
+        return false;
     }
 }
