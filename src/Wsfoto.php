@@ -30,6 +30,7 @@ class Wsfoto
 
         } catch(Exception $e) {
             var_dump($e);
+            return false;
         }
         return $request['fotoCartao'];
     }
