@@ -18,6 +18,6 @@
         }
     },
     "require": {
-        "econea/nusoap": "dev-master"
+        "econea/nusoap": "0.9.7"
     }
 }
