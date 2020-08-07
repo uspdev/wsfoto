@@ -1,3 +1,5 @@
+# WSFoto
+
 Classe para abstração das requisições SOAP do wsfoto
 
     composer require uspdev/wsfoto
@@ -14,7 +16,13 @@ Para testá-los, adicione em seu arquivo PHP:
 
     use Uspdev\Wsfoto;
     putenv('WSFOTO_USER=SEU_USERFFLCH');
-    putenv('WSFOTO_PASS=SEU_SCRET');
+    putenv('WSFOTO_PASS=SEU_SECRET');
 
     $foto = Wsfoto::obter('5385361');
+    header('Content-Type: image/png');
+    echo base64_decode($foto);
 
+Se um projeto usa esta biblioteca mas você não quer usar por algum motivo, 
+desabilite o uso com:
+
+    putenv('WSFOTO_DISABLE=1');
