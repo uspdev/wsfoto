@@ -4,7 +4,7 @@ Classe para abstração das requisições SOAP do wsfoto
 
     composer require uspdev/wsfoto
 
-Dependências do PHP (testado com php7.2):
+Dependências do PHP:
 
     apt-get install php php-curl
 
