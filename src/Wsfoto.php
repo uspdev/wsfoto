@@ -21,9 +21,14 @@ class Wsfoto
             try {
                 SELF::$instance = new \SoapClient('http://uspdigital.usp.br/wsfoto/wsdl/foto.wsdl', ['trace' => 1]);
             } catch (\Exception $e) {
-                var_dump($e);
+                if (getenv('WSFOTO_DEBUG') == 1) {
+                    var_dump($e);
+                    die('Erro ao obter instância no WSFOTO');
+                } else {
+                    return false;
+                }
             }
-            $headerVar = new \SoapVar('<username>'.$user.'</username><password>'.$pass.'</password>', XSD_ANYXML);
+            $headerVar = new \SoapVar('<username>' . $user . '</username><password>' . $pass . '</password>', XSD_ANYXML);
             $header = new \SoapHeader('http://tempuri.org/', 'RequestParams', $headerVar);
             SELF::$instance->__setSoapHeaders($header);
         }
@@ -32,11 +37,12 @@ class Wsfoto
 
     /**
      * Obtém a foto do cartão USP
-     * 
+     *
      * @param Int $codpes
      * @return String $img codificado em base64
-     * 
+     *
      * @author Modificado por Masaki K. Neto em 11/3/2021
+     * @author Modificado por Masakik em 23/3/2022 para mostrar foto fake em caso de problemas
      */
     public static function obter(Int $codpes)
     {
@@ -45,14 +51,22 @@ class Wsfoto
             return SELF::$fake;
         }
         try {
-            $foto = SELF::getInstance()->obterFotoCartao(['codigoPessoa' => $codpes]);
+            if ($instance = SELF::getInstance()) {
+                $foto = $instance->obterFotoCartao(['codigoPessoa' => $codpes]);
+            }
         } catch (\Exception $e) {
-            var_dump($e);
+            if (getenv('WSFOTO_DEBUG') == 1) {
+                var_dump($e);
+                die('Erro ao obter foto');
+            } else {
+                return SELF::$fake;
+            }
         }
 
         if (isset($foto->fotoCartao)) {
             return \base64_encode($foto->fotoCartao);
+        } else {
+            return SELF::$fake;
         }
-        return SELF::$fake;
     }
 }

@@ -32,6 +32,10 @@ desabilite ele com:
 
     putenv('WSFOTO_DISABLE=1');
 
+Se a biblioteca retornar somente a foto fake, mesmo estando habilitada, pode ser que esteja com algum problema no soap. Use o debug para ver o retorno do erro.
+
+    putenv('WSFOTO_DEBUG=1');
+
 
 ## Atualização da versão 1.x para versão 2
 
@@ -39,3 +43,19 @@ desabilite ele com:
 * Não é mais necessário o econea/nusoap
 * As variáveis de ambiente e as chamadas estão idênticas. 
 * Agora, se não encontrar o codpes, ao invés de retornar false retorna a imagem fake. 
+
+## Uso com Laravel
+
+Se esta biblioteca está em uso com o laravel coloque no .env.exemple o seguinte:
+
+    # WSFOTO
+    # https://github.com/uspdev/wsfoto
+    WSFOTO_USER=
+    WSFOTO_PASS=
+
+    # Se necessário desative a funcionalidade do wsfoto (foto fake apenas).
+    #WSFOTO_DISABLE=0
+
+    # Caso a biblioteca retorne sempre a foto fake, pode estar tendo
+    # algum problema na biblioteca. Ative o debug para ver os erros.
+    #WSFOTO_DEBUG=0
