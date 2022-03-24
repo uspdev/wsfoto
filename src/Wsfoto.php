@@ -43,12 +43,13 @@ class Wsfoto
      *
      * @author Modificado por Masaki K. Neto em 11/3/2021
      * @author Modificado por Masakik em 23/3/2022 para mostrar foto fake em caso de problemas
+     * @author Modificado por Leonardo em 24/3/2022 para flexibilizar a foto fake a ser utilizada
      */
     public static function obter(Int $codpes)
     {
         if (getenv('WSFOTO_DISABLE')) {
             // vamos retornar uma foto fake
-            return SELF::$fake;
+            return SELF::fake();
         }
         try {
             if ($instance = SELF::getInstance()) {
@@ -59,41 +60,38 @@ class Wsfoto
                 var_dump($e);
                 die('Erro ao obter foto');
             } else {
-                if (!SELF::checaFotoFakePadrao()) {
-                    return SELF::$fake;
-                } else {
-                    return \base64_encode(file_get_contents(getenv('WSFOTO_FAKE_DEFAULT_PATH')));
-                }
+                return SELF::fake();                
             }
         }
 
         if (isset($foto->fotoCartao)) {
             return \base64_encode($foto->fotoCartao);
         } else {
-            if (!SELF::checaFotoFakePadrao()) {
-                return SELF::$fake;
-            } else {
-                return \base64_encode(file_get_contents(getenv('WSFOTO_FAKE_DEFAULT_PATH')));
-            }
+            return SELF::fake();            
         }
     }
     
     /**
-     * Checa se a variavel de ambiente WSFOTO_FAKE_DEFAULT_PATH foi preenchida,
+     * Retorna a foto fake correta
+     *  
+     * @return String $fake codificado em base64
+     * 
+     * Checa se a variavel de ambiente WSFOTO_FAKE_PATH foi preenchida,
      * se o conteudo representa um arquivo existente e se o tipo do arquivo e
      * uma imagem
      *  
-     * @return boolean
+     * @author Criado por Leonardo em 24/3/2022
      */
-    private static function checaFotoFakePadrao() {
+    private static function fake() : string {
         $result = false;
         
-        $fakeDefaultPath = getenv('WSFOTO_FAKE_DEFAULT_PATH');
+        $fakePath = getenv('WS_FOTO_FAKE_PATH');
         $finfo = finfo_open(FILEINFO_MIME_TYPE);        
-        if (!empty($fakeDefaultPath) && file_exists($fakeDefaultPath) 
-            && str_contains(finfo_file($finfo, $fakeDefaultPath),'image')) {
-            $result = true;
-        }        
+        if (!empty($fakePath) && file_exists($fakePath) && str_contains(finfo_file($finfo, $fakePath),'image')) {
+                $result = \base64_encode(file_get_contents(getenv('WS_FOTO_FAKE_PATH')));
+        } else {
+            $result = SELF::$fake;
+        }
         finfo_close($finfo);
         return ($result);
     }
