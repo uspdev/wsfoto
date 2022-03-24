@@ -59,14 +59,42 @@ class Wsfoto
                 var_dump($e);
                 die('Erro ao obter foto');
             } else {
-                return SELF::$fake;
+                if (!SELF::checaFotoFakePadrao()) {
+                    return SELF::$fake;
+                } else {
+                    return \base64_encode(file_get_contents(getenv('WSFOTO_FAKE_DEFAULT_PATH')));
+                }
             }
         }
 
         if (isset($foto->fotoCartao)) {
             return \base64_encode($foto->fotoCartao);
         } else {
-            return SELF::$fake;
+            if (!SELF::checaFotoFakePadrao()) {
+                return SELF::$fake;
+            } else {
+                return \base64_encode(file_get_contents(getenv('WSFOTO_FAKE_DEFAULT_PATH')));
+            }
         }
+    }
+    
+    /**
+     * Checa se a variavel de ambiente WSFOTO_FAKE_DEFAULT_PATH foi preenchida,
+     * se o conteudo representa um arquivo existente e se o tipo do arquivo e
+     * uma imagem
+     *  
+     * @return boolean
+     */
+    private static function checaFotoFakePadrao() {
+        $result = false;
+        
+        $fakeDefaultPath = getenv('WSFOTO_FAKE_DEFAULT_PATH');
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);        
+        if (!empty($fakeDefaultPath) && file_exists($fakeDefaultPath) 
+            && str_contains(finfo_file($finfo, $fakeDefaultPath),'image')) {
+            $result = true;
+        }        
+        finfo_close($finfo);
+        return ($result);
     }
 }
