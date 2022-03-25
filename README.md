@@ -36,6 +36,10 @@ Se a biblioteca retornar somente a foto fake, mesmo estando habilitada, pode ser
 
     putenv('WSFOTO_DEBUG=1');
 
+Se for desejado customizar a imagem utilizada como a foto fake, use a variável abaixo para informar o caminho para o arquivo da imagem a ser utilizada.
+
+    putenv('WS_FOTO_FAKE_PATH=<CAMINHO PARA ARQUIVO DE IMAGEM>');
+
 
 ## Atualização da versão 1.x para versão 2
 
@@ -59,3 +63,7 @@ Se esta biblioteca está em uso com o laravel coloque no .env.exemple o seguinte
     # Caso a biblioteca retorne sempre a foto fake, pode estar tendo
     # algum problema na biblioteca. Ative o debug para ver os erros.
     #WSFOTO_DEBUG=0
+    
+    # Caminho para o arquivo de imagem desejada para ser utilizada
+    # como a foto fake
+    WS_FOTO_FAKE_PATH=
