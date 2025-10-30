@@ -27,8 +27,7 @@ header('Content-Type: image/png');
 echo base64_decode($foto);
 ```
 
-Se um projeto usa esta biblioteca mas você não quer usar por algum motivo, 
-desabilite ele com:
+Se um projeto usa esta biblioteca mas você não quer usar por algum motivo, desabilite ele com:
 
     putenv('WSFOTO_DISABLE=1');
 
@@ -63,7 +62,7 @@ Se esta biblioteca está em uso com o laravel coloque no .env.exemple o seguinte
     # Caso a biblioteca retorne sempre a foto fake, pode estar tendo
     # algum problema na biblioteca. Ative o debug para ver os erros.
     #WSFOTO_DEBUG=0
-    
+
     # Caminho para o arquivo de imagem desejada para ser utilizada
     # como a foto fake
     WS_FOTO_FAKE_PATH=
