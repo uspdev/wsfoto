@@ -11,7 +11,7 @@ Dependências do PHP:
 Instale via composer em seu projeto
 
     composer require uspdev/wsfoto
-    
+
 Para testá-lo, adicione em seu arquivo PHP:
 ```php
 <?php
