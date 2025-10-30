@@ -16,10 +16,11 @@ class Wsfoto
     {
         $user = getenv('WSFOTO_USER');
         $pass = getenv('WSFOTO_PASS');
-
+        $conn_to = getenv('WSFOTO_CONNECTION_TIMEOUT') ?? 60;
+        
         if (!SELF::$instance) {
             try {
-                SELF::$instance = new \SoapClient('http://uspdigital.usp.br/wsfoto/wsdl/foto.wsdl', ['trace' => 1]);
+                SELF::$instance = new \SoapClient('http://uspdigital.usp.br/wsfoto/wsdl/foto.wsdl', ['trace' => 1, 'connection_timeout' => $conn_to]);
             } catch (\Exception $e) {
                 if (getenv('WSFOTO_DEBUG') == 1) {
                     var_dump($e);
